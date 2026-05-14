@@ -10,11 +10,11 @@ from src.user.models import UserModel
 
 @task_routes.post("/create",response_model=TaskResponseDTO,status_code=status.HTTP_201_CREATED)
 def create_task(body: TaskCreateDTO,db=Depends(get_db),user: UserModel=Depends(authenticate_user)):
-    return controller.create_task(body,db)
+    return controller.create_task(body,db,user)
 
 @task_routes.get("/get-all",response_model=List[TaskResponseDTO],status_code=status.HTTP_200_OK)
 def get_all_tasks(db:Session=Depends(get_db),user: UserModel=Depends(authenticate_user)):
-    return controller.get_all_tasks(db)
+    return controller.get_all_tasks(db,user)
 
 @task_routes.get("/get_task/{task_id}",response_model=TaskResponseDTO,status_code=status.HTTP_200_OK)
 def get_task_by_id(task_id:int,db:Session=Depends(get_db),user: UserModel=Depends(authenticate_user)):
@@ -27,4 +27,4 @@ def delete_task_by_id(task_id:int,db:Session=Depends(get_db),user: UserModel=Dep
 
 @task_routes.put("/update_task/{task_id}",response_model=TaskResponseDTO,status_code=status.HTTP_200_OK)
 def update_task(task_id:int,body: TaskCreateDTO,db:Session=Depends(get_db),user: UserModel=Depends(authenticate_user)):
-    return controller.update_task(task_id,body,db)
+    return controller.update_task(task_id,body,db,user)
